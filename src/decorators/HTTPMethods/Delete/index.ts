@@ -4,6 +4,6 @@ export default (url: string, prefix?: string) => {
   return Request({
     url,
     prefix,
-    method: 'HEAD',
+    method: 'DELETE',
   });
 };
