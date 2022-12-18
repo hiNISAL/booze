@@ -1,7 +1,8 @@
 import { isArray } from "../helpers/decorators";
+import { BoozeRequestConfig } from "../types";
 
 export type Adapter = {
-  handler: (config: any) => Promise<any>,
+  handler: (config: BoozeRequestConfig) => Promise<any>,
   name: string,
 };
 

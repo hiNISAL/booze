@@ -11,7 +11,7 @@ export const setClassTag = (tag: string|symbol, value: any) => {
 };
 
 export const setTag = (tag: string|symbol, value: any) => {
-  return (target: any, name: string) => {
+  return (target: any, name?: string) => {
     if (name) {
       target[name][tag] = value;
 

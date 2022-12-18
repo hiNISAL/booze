@@ -1,7 +1,7 @@
+import { setTag } from "../../helpers/decorators";
+
 export const prefixSymbol = Symbol('prefixPropKey');
 
 export default (prefix: string) => {
-  return (target: any) => {
-    target.prototype[prefixSymbol] = prefix;
-  };
+  return setTag(prefixSymbol, prefix);
 };
