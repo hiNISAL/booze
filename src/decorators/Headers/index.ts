@@ -1,4 +1,4 @@
-import { isString, setTag } from "../../helpers/decorators";
+import { isString, setTag } from "../../helpers/";
 import { BoozeRequestConfig } from "../../types";
 
 export const headerSymbol = Symbol('headerSymbol');

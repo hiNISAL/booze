@@ -1,5 +1,5 @@
 import { Adapter } from "../../adapter";
-import { setTag } from "../../helpers/decorators";
+import { setTag } from "../../helpers/";
 
 export const adapterSymbol = Symbol('adapter');
 

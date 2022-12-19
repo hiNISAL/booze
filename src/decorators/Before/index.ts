@@ -1,4 +1,4 @@
-import { setTag } from "../../helpers/decorators";
+import { setTag } from "../../helpers/";
 import { BoozeRequestConfig } from "../../types";
 
 export const beforeSymbol = Symbol('before');

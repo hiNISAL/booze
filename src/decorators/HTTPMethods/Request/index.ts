@@ -1,6 +1,6 @@
 import qs from 'qs';
 import adapterMgr from "../../../adapter";
-import { isArray, isFunction, isPromise, isString, rnd } from "../../../helpers/decorators";
+import { isArray, isFunction, isPromise, isString, rnd } from "../../../helpers/";
 import { adapterSymbol } from "../../Adapter";
 import { headerSymbol } from "../../Headers";
 import { prefixSymbol } from "../../Prefix";
@@ -8,6 +8,7 @@ import { Obj, BoozeRequestMethodReturnValue, MakeBodyOptions, BoozeRequestConfig
 import { makeBodySymbol } from "../../../methods";
 import { beforeSymbol } from "../../Before";
 import { jsonpSymbol } from '../../JSONP';
+import { afterSymbol } from '../../After';
 
 const rndJsonpCallback = () => {
   return `__callback_${rnd()}`;
@@ -24,6 +25,7 @@ const getBodyOptions = (method: string, returnValue: BoozeRequestMethodReturnVal
   let query: Obj = {};
   let params: Obj = {};
   let onProgress = null;
+  let cancel = null;
   let jsonp = null;
 
   if ((returnValue as any)[makeBodySymbol]) {
@@ -45,6 +47,10 @@ const getBodyOptions = (method: string, returnValue: BoozeRequestMethodReturnVal
 
     if ((returnValue as MakeBodyOptions).onProgress) {
       onProgress = (returnValue as MakeBodyOptions).onProgress || null;
+    }
+
+    if ((returnValue as MakeBodyOptions).cancel) {
+      onProgress = (returnValue as MakeBodyOptions).cancel || null;
     }
 
     if ((returnValue as MakeBodyOptions).jsonp) {
@@ -75,6 +81,7 @@ const getBodyOptions = (method: string, returnValue: BoozeRequestMethodReturnVal
     placeholders,
     jsonp,
     onProgress,
+    cancel,
   };
 };
 
@@ -101,11 +108,13 @@ export default (config: RequestOptions) => {
     const headers = _fn[headerSymbol];
     const adapter =  _fn[adapterSymbol] || adapterMgr.curAdapter;
     const before = _fn[beforeSymbol];
+    const after = _fn[afterSymbol];
     const isJsonp = _fn[jsonpSymbol];
 
     const fn = async function(...args: any[]) {
       const prefix = _prefix || target[prefixSymbol];
       const eachBefore = target[beforeSymbol];
+      const eachAfter = target[afterSymbol];
 
       const returnValue: BoozeRequestMethodReturnValue = (await _fn(...args)) || {};
 
@@ -115,6 +124,7 @@ export default (config: RequestOptions) => {
         query,
         onProgress,
         jsonp,
+        cancel,
       } = getBodyOptions(method, returnValue);
 
       const realUrl = fillUrl(url, placeholders);
@@ -127,6 +137,7 @@ export default (config: RequestOptions) => {
         params,
         headers,
         onProgress,
+        cancel,
         jsonp: jsonp || (isJsonp ? rndJsonpCallback() : null),
         _prefix: prefix,
         _url: url,
@@ -152,7 +163,15 @@ export default (config: RequestOptions) => {
         }
       }
 
-      return adapter.handler(config);
+      const result = await adapter.handler(config);
+
+      if (eachAfter) {
+        eachAfter(config, result);
+      }
+
+      if (after) {
+        after(config, result);
+      }
     };
 
     desc.value = fn;

@@ -9,6 +9,7 @@ export interface BoozeRequestConfig {
   headers: Record<string, string>;
   jsonp: string|null;
   onProgress: Function|null;
+  cancel: Function|null;
   _prefix: string;
   _url: string;
 }
@@ -20,6 +21,7 @@ export interface MakeBodyOptions {
   params?: Obj;
   query?: Obj|string;
   onProgress?: Function;
+  cancel?: Function;
   jsonp?: boolean|string;
 }
 

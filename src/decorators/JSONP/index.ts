@@ -1,4 +1,4 @@
-import { setTag } from "../../helpers/decorators";
+import { setTag } from "../../helpers/";
 
 export const jsonpSymbol = Symbol('jsonp');
 

@@ -1,5 +1,6 @@
 import { Adapter as IAdapter } from '../src/adapter';
 import Adapter from '../src/decorators/Adapter';
+import After from '../src/decorators/After';
 import Before from '../src/decorators/Before';
 import Headers from '../src/decorators/Headers';
 import Get from '../src/decorators/HTTPMethods/Get';
@@ -19,6 +20,10 @@ const adapter: IAdapter = {
 @Before(() => {
   console.log('class Before');
 })
+@After(() => {
+  console.log('each after');
+
+})
 class Request {
   @Get('123/:id')
   // @Headers('Auth', '123')
@@ -34,6 +39,9 @@ class Request {
   })
   @Adapter(adapter)
   // @JSONP()
+  @After<{a: 1}>((a, b) => {
+    console.log('after');
+  })
   public test() {
     return body({
       placeholders: {id: 1},

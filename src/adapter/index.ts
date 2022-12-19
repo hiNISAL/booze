@@ -1,4 +1,4 @@
-import { isArray } from "../helpers/decorators";
+import { isArray } from "../helpers";
 import { BoozeRequestConfig } from "../types";
 
 export type Adapter = {

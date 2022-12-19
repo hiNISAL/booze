@@ -1,4 +1,4 @@
-import { setTag } from "../../helpers/decorators";
+import { setTag } from "../../helpers/";
 
 export const prefixSymbol = Symbol('prefixPropKey');
 
