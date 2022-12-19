@@ -1,12 +1,17 @@
+import qs from 'qs';
 import adapterMgr from "../../../adapter";
-import { isArray, isFunction, isPromise, isString } from "../../../helpers/decorators";
+import { isArray, isFunction, isPromise, isString, rnd } from "../../../helpers/decorators";
 import { adapterSymbol } from "../../Adapter";
 import { headerSymbol } from "../../Headers";
 import { prefixSymbol } from "../../Prefix";
 import { Obj, BoozeRequestMethodReturnValue, MakeBodyOptions, BoozeRequestConfig, RequestMethod } from '../../../types';
 import { makeBodySymbol } from "../../../methods";
-import qs from 'qs';
 import { beforeSymbol } from "../../Before";
+import { jsonpSymbol } from '../../JSONP';
+
+const rndJsonpCallback = () => {
+  return `__callback_${rnd()}`;
+}
 
 interface RequestOptions {
   method: RequestMethod;
@@ -19,6 +24,7 @@ const getBodyOptions = (method: string, returnValue: BoozeRequestMethodReturnVal
   let query: Obj = {};
   let params: Obj = {};
   let onProgress = null;
+  let jsonp = null;
 
   if ((returnValue as any)[makeBodySymbol]) {
     if ((returnValue as MakeBodyOptions).query) {
@@ -40,6 +46,14 @@ const getBodyOptions = (method: string, returnValue: BoozeRequestMethodReturnVal
     if ((returnValue as MakeBodyOptions).onProgress) {
       onProgress = (returnValue as MakeBodyOptions).onProgress || null;
     }
+
+    if ((returnValue as MakeBodyOptions).jsonp) {
+      if (isString((returnValue as MakeBodyOptions).jsonp)) {
+        jsonp = (returnValue as MakeBodyOptions).jsonp as string;
+      } else {
+        jsonp = rndJsonpCallback();
+      }
+    }
   } else if (isArray(returnValue as Obj[])) {
     if (method === 'GET') {
       query = (returnValue as [Obj, Obj])[0];
@@ -59,6 +73,7 @@ const getBodyOptions = (method: string, returnValue: BoozeRequestMethodReturnVal
     params,
     query,
     placeholders,
+    jsonp,
     onProgress,
   };
 };
@@ -86,6 +101,7 @@ export default (config: RequestOptions) => {
     const headers = _fn[headerSymbol];
     const adapter =  _fn[adapterSymbol] || adapterMgr.curAdapter;
     const before = _fn[beforeSymbol];
+    const isJsonp = _fn[jsonpSymbol];
 
     const fn = async function(...args: any[]) {
       const prefix = _prefix || target[prefixSymbol];
@@ -98,6 +114,7 @@ export default (config: RequestOptions) => {
         placeholders,
         query,
         onProgress,
+        jsonp,
       } = getBodyOptions(method, returnValue);
 
       const realUrl = fillUrl(url, placeholders);
@@ -110,6 +127,7 @@ export default (config: RequestOptions) => {
         params,
         headers,
         onProgress,
+        jsonp: jsonp || (isJsonp ? rndJsonpCallback() : null),
         _prefix: prefix,
         _url: url,
       };

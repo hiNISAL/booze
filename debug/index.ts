@@ -4,6 +4,7 @@ import Before from '../src/decorators/Before';
 import Headers from '../src/decorators/Headers';
 import Get from '../src/decorators/HTTPMethods/Get';
 import Post from '../src/decorators/HTTPMethods/Post';
+import JSONP from '../src/decorators/JSONP';
 import { body, Prefix, _prefixSymbol } from '../src/index';
 
 const adapter: IAdapter = {
@@ -32,6 +33,7 @@ class Request {
     return true;
   })
   @Adapter(adapter)
+  // @JSONP()
   public test() {
     return body({
       placeholders: {id: 1},
@@ -40,6 +42,7 @@ class Request {
       onProgress: () => {
 
       },
+      jsonp: '123',
     });
   }
 }

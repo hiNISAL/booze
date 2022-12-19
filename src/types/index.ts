@@ -7,6 +7,7 @@ export interface BoozeRequestConfig {
   query: Record<string, string>;
   params: Record<string, any>;
   headers: Record<string, string>;
+  jsonp: string|null;
   onProgress: Function|null;
   _prefix: string;
   _url: string;
@@ -19,6 +20,7 @@ export interface MakeBodyOptions {
   params?: Obj;
   query?: Obj|string;
   onProgress?: Function;
+  jsonp?: boolean|string;
 }
 
 export type BoozeRequestMethodReturnValue = MakeBodyOptions|Obj|[Obj, Obj?];

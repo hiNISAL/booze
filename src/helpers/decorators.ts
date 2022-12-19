@@ -49,3 +49,7 @@ export const isString = (target: any) => {
 export const isUndefined = (target: any) => {
   return (typeof(target) === 'undefined');
 };
+
+export const rnd = (): string => {
+  return Math.random().toString(16).substring(2);
+};
