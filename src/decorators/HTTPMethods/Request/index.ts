@@ -172,6 +172,8 @@ export default (config: RequestOptions) => {
       if (after) {
         after(config, result);
       }
+
+      return result;
     };
 
     desc.value = fn;
