@@ -129,6 +129,25 @@ class Req {
 }
 ```
 
+
+有些情况下，参数是带在路径上的，可以通过占位符的方式解决。
+
+在`path`中通过`:placeholder`的方式占位，这时候返回值需要变成数组，第二个参数来返回占位同名的参数，这样在处理参数过程中，`booze`会对占位符进行替换。
+
+```ts
+@Prefix('https://some.site.com')
+class Req {
+  @Get('/list/:id')
+  public getList() {
+    return [{
+      page: 1,
+    }, {
+      id: 996,
+    }];
+  }
+}
+```
+
 #### Post
 
 装饰方法，调用该方法后，会把方法的返回值作为参数，发起一个`Post`请求。
@@ -232,13 +251,13 @@ class Req {
 
 ```ts
 @Prefix('https://some.site.com')
-@After((config: BoozeRequestConfig, result) => {
+@After<ResponseType>((config: BoozeRequestConfig, result) => {
 
 })
 class Req {
   @Get('/list')
   @JSONP()
-  @After((config: BoozeRequestConfig, result) => {
+  @After<ResponseType>((config: BoozeRequestConfig, result) => {
 
   })
   public getList() {
@@ -394,3 +413,23 @@ class Req {
 ```
 
 ## 开发注意点
+
+### 数据类型问题
+
+因为方法被装饰器重写了，所以调用方法后得到的返回值，类型推断层面会存在问题，官方也有相关[ISSUE](https://github.com/microsoft/TypeScript/issues/49229)。
+
+推荐采用`as`的方式：
+
+```ts
+interface SomeInterface {
+
+}
+
+@Prefix('https://some.site.com')
+class Req {
+  @Get('/')
+  public getSomeThing() {
+    return {} as SomeInterface;
+  }
+}
+```
