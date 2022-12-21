@@ -148,6 +148,8 @@ class Req {
 }
 ```
 
+注：装饰请求方法的装饰器，必须放在第一位。
+
 #### Post
 
 装饰方法，调用该方法后，会把方法的返回值作为参数，发起一个`Post`请求。
@@ -462,6 +464,32 @@ class Req {
   @Get('/')
   public getSomeThing() {
     return {} as SomeInterface;
+  }
+}
+```
+
+### 装饰顺序问题
+
+标记请求方法的装饰器，必须放在第一个。
+
+包括：
+
+- @Get
+- @Post
+- @Delete
+- @Put
+- @Patch
+- @Options
+- @Head
+
+```ts
+@Prefix('https://some.site.com')
+class Req {
+  // 这样会运行异常，Get必须放在最前面
+  @After()
+  @Get('/')
+  public getSomeThing() {
+    return {};
   }
 }
 ```
