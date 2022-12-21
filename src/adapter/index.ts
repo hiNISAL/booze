@@ -22,7 +22,7 @@ class AdapterManager {
       return r;
     }, {} as Record<string, Adapter>);
 
-    this.curAdapter = this.adapterList[0];
+    this.curAdapter = (adapter as Adapter[])[0];
   }
 
   public setAdapter(adapter: string|Adapter) {

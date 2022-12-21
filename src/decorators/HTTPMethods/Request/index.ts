@@ -115,6 +115,9 @@ export default (config: RequestOptions) => {
       const prefix = _prefix || target[prefixSymbol];
       const eachBefore = target[beforeSymbol];
       const eachAfter = target[afterSymbol];
+      const upperAdapter = target[adapterSymbol];
+
+      const _adapter = adapter || upperAdapter || adapterMgr.curAdapter;
 
       const returnValue: BoozeRequestMethodReturnValue = (await _fn(...args)) || {};
 
@@ -163,7 +166,7 @@ export default (config: RequestOptions) => {
         }
       }
 
-      const result = await adapter.handler(config);
+      const result = await _adapter.handler(config);
 
       if (eachAfter) {
         eachAfter(config, result);
