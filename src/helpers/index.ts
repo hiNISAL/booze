@@ -53,3 +53,17 @@ export const isUndefined = (target: any) => {
 export const rnd = (): string => {
   return Math.random().toString(16).substring(2);
 };
+
+
+const supportSymbol = (() => {
+  try {
+    Symbol();
+
+    return true;
+  } catch {
+    return false;
+  }
+})();
+export const createSymbol = (key: string) => {
+  return supportSymbol ? Symbol(key) : `$$__symbol__${key}`;
+};

@@ -1,7 +1,7 @@
 import { Adapter } from "../../adapter";
-import { setTag } from "../../helpers/";
+import { createSymbol, setTag } from "../../helpers/";
 
-export const adapterSymbol = Symbol('adapter');
+export const adapterSymbol = createSymbol('adapter');
 
 export default (adapter: Adapter|string) => {
   return setTag(adapterSymbol, adapter);

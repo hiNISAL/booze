@@ -390,12 +390,17 @@ regAdapter([
 
 #### setAdapter
 
-设置适配器，有多个适配器的时候，可以直接通过`name`指定。
+设置适配器，有多个适配器的时候，可以直接通过`name`指定，也可以传入一个新的适配器。
 
 ```ts
 import { setAdapter } from 'booze';
 
 setAdapter('xhrAdapter');
+
+setAdapter({
+  name: '',
+  handler: () => {},
+});
 ```
 
 #### makeBody
@@ -428,6 +433,8 @@ class Req {
 #### beforeEachExecSourceFnGlobal
 
 注册全局的钩子，会在原始方法被调用前触发。
+
+如果返回值是 `false` 则会中断请求。
 
 ```ts
 import { beforeEachExecSourceFnGlobal } from 'booze';
