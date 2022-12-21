@@ -26,3 +26,10 @@ export interface MakeBodyOptions {
 }
 
 export type BoozeRequestMethodReturnValue = MakeBodyOptions|Obj|[Obj, Obj?];
+
+export interface BoozeRequestConfigBase {
+  url: string;
+  method: string;
+  prefix: string;
+  args: any[];
+}

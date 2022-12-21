@@ -300,6 +300,19 @@ class Req {
 }
 ```
 
+#### BeforeExecSourceFn
+
+在原始方法被执行前会执行，如果返回false，会中断请求的发送。
+
+```ts
+@Prefix('https://some.site.com')
+@BeforeExecSourceFn(() => {})
+class Req {
+  @Delete('/')
+  @BeforeExecSourceFn(() => {})
+  public updateSomeThing() {}
+}
+```
 
 #### Delete
 
@@ -410,6 +423,18 @@ class Req {
     };
   }
 }
+```
+
+#### beforeEachExecSourceFnGlobal
+
+注册全局的钩子，会在原始方法被调用前触发。
+
+```ts
+import { beforeEachExecSourceFnGlobal } from 'booze';
+
+beforeEachExecSourceFnGlobal((baseConfig) => {
+  console.log(baseConfig);
+});
 ```
 
 ## 开发注意点

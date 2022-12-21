@@ -1,4 +1,4 @@
-import { MakeBodyOptions } from "../types";
+import { MakeBodyOptions } from "../../types";
 
 export const makeBodySymbol = Symbol('body');
 

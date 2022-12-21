@@ -13,7 +13,7 @@ export { default as Headers, headerSymbol as _headerSymbol } from './decorators/
 export { default as JSONP, jsonpSymbol as _jsonpSymbol } from './decorators/JSONP';
 export { default as Prefix, prefixSymbol as _prefixSymbol } from './decorators/Prefix';
 
-export { makeBody } from './methods';
+export { makeBody } from './methods/makeBody';
 
 import adapterMgr from './adapter';
 

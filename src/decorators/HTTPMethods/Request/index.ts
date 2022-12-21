@@ -4,11 +4,13 @@ import { isArray, isFunction, isPromise, isString, rnd } from "../../../helpers/
 import { adapterSymbol } from "../../Adapter";
 import { headerSymbol } from "../../Headers";
 import { prefixSymbol } from "../../Prefix";
-import { Obj, BoozeRequestMethodReturnValue, MakeBodyOptions, BoozeRequestConfig, RequestMethod } from '../../../types';
-import { makeBodySymbol } from "../../../methods";
+import { Obj, BoozeRequestMethodReturnValue, MakeBodyOptions, BoozeRequestConfig, RequestMethod, BoozeRequestConfigBase } from '../../../types';
+import { makeBodySymbol } from "../../../methods/makeBody";
 import { beforeSymbol } from "../../Before";
 import { jsonpSymbol } from '../../JSONP';
 import { afterSymbol } from '../../After';
+import { beforeExecSourceFnSymbol } from '../../BeforeExecSourceFn';
+import { getCallback } from '../../../methods/beforeEachExecSourceFnGlobal';
 
 const rndJsonpCallback = () => {
   return `__callback_${rnd()}`;
@@ -108,6 +110,7 @@ export default (config: RequestOptions) => {
     const headers = _fn[headerSymbol];
     const adapter =  _fn[adapterSymbol] || adapterMgr.curAdapter;
     const before = _fn[beforeSymbol];
+    const beforeExecSourceFn = _fn[beforeExecSourceFnSymbol];
     const after = _fn[afterSymbol];
     const isJsonp = _fn[jsonpSymbol];
 
@@ -115,9 +118,43 @@ export default (config: RequestOptions) => {
       const prefix = _prefix || target[prefixSymbol];
       const eachBefore = target[beforeSymbol];
       const eachAfter = target[afterSymbol];
+      const eachBeforeExecSourceFn = _fn[beforeExecSourceFnSymbol];
       const upperAdapter = target[adapterSymbol];
 
       const _adapter = adapter || upperAdapter || adapterMgr.curAdapter;
+
+      if (beforeExecSourceFn || eachBeforeExecSourceFn || getCallback()) {
+        const baseConfig: BoozeRequestConfigBase = {
+          url,
+          method,
+          prefix,
+          args,
+        };
+
+        {
+          const beforeExecValue = await getCallback()!(baseConfig);
+
+          if (beforeExecValue === false) {
+            return;
+          }
+        }
+
+        if (beforeExecSourceFn) {
+          const beforeExecValue = await beforeExecSourceFn(baseConfig);
+
+          if (beforeExecValue === false) {
+            return;
+          }
+        }
+
+        if (eachBeforeExecSourceFn) {
+          const beforeExecValue = await eachBeforeExecSourceFn(baseConfig);
+
+          if (beforeExecValue === false) {
+            return;
+          }
+        }
+      }
 
       const returnValue: BoozeRequestMethodReturnValue = (await _fn(...args)) || {};
 
