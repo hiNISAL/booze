@@ -14,6 +14,7 @@ export { default as JSONP, jsonpSymbol as _jsonpSymbol } from './decorators/JSON
 export { default as Prefix, prefixSymbol as _prefixSymbol } from './decorators/Prefix';
 
 export { makeBody } from './methods/makeBody';
+export { beforeEachExecSourceFnGlobal } from './methods/beforeEachExecSourceFnGlobal';
 
 import adapterMgr from './adapter';
 
