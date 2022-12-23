@@ -12,6 +12,7 @@ export { default as Request } from './decorators/HTTPMethods/Request';
 export { default as Headers, headerSymbol as _headerSymbol } from './decorators/Headers';
 export { default as JSONP, jsonpSymbol as _jsonpSymbol } from './decorators/JSONP';
 export { default as Prefix, prefixSymbol as _prefixSymbol } from './decorators/Prefix';
+export { default as BodyType, bodyTypeSymbol as _bodyTypeSymbol } from './decorators/BodyType';
 
 export { makeBody } from './methods/makeBody';
 export { eachBeforeExecSourceFnGlobal } from './methods/eachBeforeExecSourceFnGlobal';

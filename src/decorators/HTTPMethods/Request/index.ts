@@ -12,6 +12,7 @@ import { afterSymbol } from '../../After';
 import { beforeExecSourceFnSymbol } from '../../BeforeExecSourceFn';
 import { getCallback } from '../../../methods/eachBeforeExecSourceFnGlobal';
 import { getCallback as getEachAfterCallback } from '../../../methods/eachAfter';
+import { bodyTypeSymbol, BodyTypeHeader } from '../../BodyType';
 
 const rndJsonpCallback = () => {
   return `__callback_${rnd()}`;
@@ -114,6 +115,7 @@ export default (config: RequestOptions) => {
     const beforeExecSourceFn = _fn[beforeExecSourceFnSymbol];
     const after = _fn[afterSymbol];
     const isJsonp = _fn[jsonpSymbol];
+    const bodyType = _fn[bodyTypeSymbol];
 
     const fn = async function(...args: any[]) {
       const prefix = _prefix || target[prefixSymbol];
@@ -186,6 +188,14 @@ export default (config: RequestOptions) => {
 
       if (isFunction(headers)) {
         config.headers = headers(config) || config.headers;
+      }
+
+      if (bodyType) {
+        const type = BodyTypeHeader[bodyType as ('Form'|'JSON')];
+
+        if (type && !config.headers['Content-Type']) {
+          config.headers['Content-Type'] = type;
+        }
       }
 
       if (eachBefore) {

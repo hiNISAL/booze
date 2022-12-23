@@ -6,7 +6,7 @@ import Headers from '../src/decorators/Headers';
 import Get from '../src/decorators/HTTPMethods/Get';
 import Post from '../src/decorators/HTTPMethods/Post';
 import JSONP from '../src/decorators/JSONP';
-import { body, Prefix, _prefixSymbol } from '../src/index';
+import { makeBody, Prefix, _prefixSymbol } from '../src/index';
 
 const adapter: IAdapter = {
   name: 'testAdapter',
@@ -43,7 +43,7 @@ class Request {
     console.log('after');
   })
   public test() {
-    return body({
+    return makeBody({
       placeholders: {id: 1},
       query: {b: 2},
       params: {c: 3},
