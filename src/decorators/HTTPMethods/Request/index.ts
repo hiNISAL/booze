@@ -179,17 +179,13 @@ export default (config: RequestOptions) => {
         queryString: qs.stringify(query),
         query,
         params,
-        headers,
+        headers: headers || {},
         onProgress,
         cancel,
         jsonp: jsonp || (isJsonp ? rndJsonpCallback() : null),
         _prefix: prefix,
         _url: url,
       };
-
-      if (isFunction(headers)) {
-        config.headers = headers(config) || config.headers;
-      }
 
       if (bodyType || eachBodyType) {
         const eachType = BodyTypeHeader[eachBodyType as ('Form'|'JSON')];
@@ -200,6 +196,10 @@ export default (config: RequestOptions) => {
         } else if (eachType && !config.headers['Content-Type']) {
           config.headers['Content-Type'] = eachBodyType;
         }
+      }
+
+      if (isFunction(headers)) {
+        config.headers = headers(config) || config.headers;
       }
 
       if (eachBefore) {

@@ -13,7 +13,7 @@ BodyType.Type = {
   JSON: 'JSON',
 };
 
-export const BodyTypeHeader = {
+export const BodyTypeHeader: Record<Type, string> = {
   Form: 'application/x-www-form-urlencoded',
   JSON: 'application/json',
 };
