@@ -11,6 +11,7 @@ import { jsonpSymbol } from '../../JSONP';
 import { afterSymbol } from '../../After';
 import { beforeExecSourceFnSymbol } from '../../BeforeExecSourceFn';
 import { getCallback } from '../../../methods/beforeEachExecSourceFnGlobal';
+import { getCallback as getEachAfterCallback } from '../../../methods/eachAfter';
 
 const rndJsonpCallback = () => {
   return `__callback_${rnd()}`;
@@ -205,12 +206,16 @@ export default (config: RequestOptions) => {
 
       const result = await _adapter.handler(config);
 
+      if (getEachAfterCallback()) {
+        getEachAfterCallback()!(result, config);
+      }
+
       if (eachAfter) {
-        eachAfter(config, result);
+        eachAfter(result, config);
       }
 
       if (after) {
-        after(config, result);
+        after(result, config);
       }
 
       return result;

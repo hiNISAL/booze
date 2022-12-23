@@ -15,6 +15,7 @@ export { default as Prefix, prefixSymbol as _prefixSymbol } from './decorators/P
 
 export { makeBody } from './methods/makeBody';
 export { beforeEachExecSourceFnGlobal } from './methods/beforeEachExecSourceFnGlobal';
+export { eachAfter } from './methods/eachAfter';
 
 import adapterMgr from './adapter';
 

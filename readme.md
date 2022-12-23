@@ -253,13 +253,13 @@ class Req {
 
 ```ts
 @Prefix('https://some.site.com')
-@After<ResponseType>((config: BoozeRequestConfig, result) => {
+@After<ResponseType>((response, config: BoozeRequestConfig) => {
 
 })
 class Req {
   @Get('/list')
   @JSONP()
-  @After<ResponseType>((config: BoozeRequestConfig, result) => {
+  @After<ResponseType>((response, config: BoozeRequestConfig) => {
 
   })
   public getList() {
@@ -442,6 +442,18 @@ class Req {
 import { beforeEachExecSourceFnGlobal } from 'booze';
 
 beforeEachExecSourceFnGlobal((baseConfig) => {
+  console.log(baseConfig);
+});
+```
+
+#### beforeEachExecSourceFnGlobal
+
+注册全局的钩子，会在适配器执行后触发。
+
+```ts
+import { afterEachExecSourceFnGlobal } from 'booze';
+
+afterEachExecSourceFnGlobal((baseConfig) => {
   console.log(baseConfig);
 });
 ```
