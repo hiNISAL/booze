@@ -321,17 +321,17 @@ class Req {
 
 预设了部分content-type类型。
 
-- BodyType.Form - application/x-www-form-urlencoded
-- BodyType.JSON - application/json
+- BodyType.Type.Form - application/x-www-form-urlencoded
+- BodyType.Type.JSON - application/json
 
 ```ts
 import { BodyType } from 'booze';
 
 @Prefix('https://some.site.com')
-@BodyType(BodyType.Form)
+@BodyType(BodyType.Type.Form)
 class Req {
   @Delete('/')
-  @BodyType(BodyType.JSON)
+  @BodyType(BodyType.Type.JSON)
   public updateSomeThing() {}
 }
 ```
