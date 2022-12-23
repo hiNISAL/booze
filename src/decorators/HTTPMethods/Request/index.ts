@@ -10,7 +10,7 @@ import { beforeSymbol } from "../../Before";
 import { jsonpSymbol } from '../../JSONP';
 import { afterSymbol } from '../../After';
 import { beforeExecSourceFnSymbol } from '../../BeforeExecSourceFn';
-import { getCallback } from '../../../methods/eachBeforeExecSourceFnGlobal';
+import { getCallback } from '../../../methods/eachBeforeExecSourceFn';
 import { getCallback as getEachAfterCallback } from '../../../methods/eachAfter';
 import { bodyTypeSymbol, BodyTypeHeader } from '../../BodyType';
 

@@ -8,6 +8,6 @@ export const getCallback = () => {
   return callback;
 };
 
-export const eachBeforeExecSourceFnGlobal = (cb: Callback|null)  => {
+export const eachBeforeExecSourceFn = (cb: Callback|null)  => {
   callback = cb;
 };
