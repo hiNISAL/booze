@@ -432,28 +432,28 @@ class Req {
 }
 ```
 
-#### beforeEachExecSourceFnGlobal
+#### eachBeforeExecSourceFnGlobal
 
 注册全局的钩子，会在原始方法被调用前触发。
 
 如果返回值是 `false` 则会中断请求。
 
 ```ts
-import { beforeEachExecSourceFnGlobal } from 'booze';
+import { eachBeforeExecSourceFnGlobal } from 'booze';
 
-beforeEachExecSourceFnGlobal((baseConfig) => {
+eachBeforeExecSourceFnGlobal((baseConfig) => {
   console.log(baseConfig);
 });
 ```
 
-#### beforeEachExecSourceFnGlobal
+#### eachAfter
 
 注册全局的钩子，会在适配器执行后触发。
 
 ```ts
-import { afterEachExecSourceFnGlobal } from 'booze';
+import { eachAfter } from 'booze';
 
-afterEachExecSourceFnGlobal((baseConfig) => {
+eachAfter((response, baseConfig) => {
   console.log(baseConfig);
 });
 ```

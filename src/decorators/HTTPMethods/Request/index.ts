@@ -10,7 +10,7 @@ import { beforeSymbol } from "../../Before";
 import { jsonpSymbol } from '../../JSONP';
 import { afterSymbol } from '../../After';
 import { beforeExecSourceFnSymbol } from '../../BeforeExecSourceFn';
-import { getCallback } from '../../../methods/beforeEachExecSourceFnGlobal';
+import { getCallback } from '../../../methods/eachBeforeExecSourceFnGlobal';
 import { getCallback as getEachAfterCallback } from '../../../methods/eachAfter';
 
 const rndJsonpCallback = () => {

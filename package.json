@@ -1,7 +1,7 @@
 {
   "name": "booze",
-  "version": "0.0.11",
-  "description": "",
+  "version": "0.0.12",
+  "description": "cross platform client http framework",
   "main": "./src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/hiNISAL/booze.git"
   },
-  "keywords": [],
+  "keywords": ["http", "request", "decorator", "http framework", "xhr", "XMLHttpRequest", "fetch"],
   "author": "",
   "license": "ISC",
   "bugs": {
