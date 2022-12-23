@@ -123,6 +123,7 @@ export default (config: RequestOptions) => {
       const eachAfter = target[afterSymbol];
       const eachBeforeExecSourceFn = _fn[beforeExecSourceFnSymbol];
       const upperAdapter = target[adapterSymbol];
+      const eachBodyType = target[bodyTypeSymbol];
 
       const _adapter = adapter || upperAdapter || adapterMgr.curAdapter;
 
@@ -190,11 +191,14 @@ export default (config: RequestOptions) => {
         config.headers = headers(config) || config.headers;
       }
 
-      if (bodyType) {
+      if (bodyType || eachBodyType) {
+        const eachType = BodyTypeHeader[eachBodyType as ('Form'|'JSON')];
         const type = BodyTypeHeader[bodyType as ('Form'|'JSON')];
 
         if (type && !config.headers['Content-Type']) {
           config.headers['Content-Type'] = type;
+        } else if (eachType && !config.headers['Content-Type']) {
+          config.headers['Content-Type'] = eachBodyType;
         }
       }
 

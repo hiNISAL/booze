@@ -317,6 +317,20 @@ class Req {
 }
 ```
 
+#### BodyType
+
+预设了部分content-type类型。
+
+```ts
+@Prefix('https://some.site.com')
+@BodyType(BodyType.Form)
+class Req {
+  @Delete('/')
+  @BodyType(BodyType.JSON)
+  public updateSomeThing() {}
+}
+```
+
 #### Delete
 
 ```ts
