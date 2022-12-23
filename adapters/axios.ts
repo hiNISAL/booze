@@ -21,6 +21,7 @@ export default {
       url: `${options.url}${queryString ? `?${queryString}` : ''}`,
       method: options.method,
       data: options.params,
+      headers: options.headers,
     };
 
     if (getMethod(options.method) === 'JSONP') {
