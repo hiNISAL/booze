@@ -1,6 +1,6 @@
 {
   "name": "booze",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "cross platform client http framework",
   "main": "./src/index.ts",
   "scripts": {

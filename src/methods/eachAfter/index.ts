@@ -1,6 +1,6 @@
 import { BoozeRequestConfig, BoozeRequestConfigBase } from "../../types";
 
-type Callback = <T>(response: T, config: BoozeRequestConfig) => T|void;
+type Callback = <T>(response: T, config: BoozeRequestConfig) => any;
 
 let callback: Callback|null = null;
 

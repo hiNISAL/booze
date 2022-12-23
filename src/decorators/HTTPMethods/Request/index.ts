@@ -204,18 +204,24 @@ export default (config: RequestOptions) => {
         }
       }
 
-      const result = await _adapter.handler(config);
+      let result = await _adapter.handler(config);
 
       if (getEachAfterCallback()) {
-        getEachAfterCallback()!(result, config);
+        const r = getEachAfterCallback()!(result, config);
+
+        if (r) result = r;
       }
 
       if (eachAfter) {
-        eachAfter(result, config);
+        const r = eachAfter(result, config);
+
+        if (r) result = r;
       }
 
       if (after) {
-        after(result, config);
+        const r = after(result, config);
+
+        if (r) result = r;
       }
 
       return result;
