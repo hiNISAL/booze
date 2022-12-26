@@ -11,7 +11,7 @@ const BodyType = (type: Type) => {
 BodyType.Type = {
   Form: 'Form',
   JSON: 'JSON',
-};
+} as Record<string, Type>;
 
 export const BodyTypeHeader: Record<Type, string> = {
   Form: 'application/x-www-form-urlencoded',
