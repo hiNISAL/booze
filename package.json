@@ -1,6 +1,6 @@
 {
   "name": "booze",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "cross platform client http framework",
   "main": "./src/index.ts",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "keywords": ["http", "request", "decorator", "http framework", "xhr", "XMLHttpRequest", "fetch"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hiNISAL/booze/issues"
   },
