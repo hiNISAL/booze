@@ -4,22 +4,32 @@
   "description": "cross platform client http framework",
   "main": "./src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon --exec 'ts-node' ./debug/index.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hiNISAL/booze.git"
   },
-  "keywords": ["http", "request", "decorator", "http framework", "xhr", "XMLHttpRequest", "fetch"],
-  "author": "",
+  "keywords": [
+    "http",
+    "request",
+    "decorator",
+    "http framework",
+    "xhr",
+    "XMLHttpRequest",
+    "fetch"
+  ],
+  "author": "ARAM",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hiNISAL/booze/issues"
   },
   "homepage": "https://github.com/hiNISAL/booze#readme",
   "devDependencies": {
+    "@babel/preset-typescript": "^7.18.6",
     "@types/isarray": "^2.0.0",
+    "@types/jest": "^29.2.4",
     "axios": "^1.2.1",
     "axios-jsonp": "^1.0.4",
     "nodemon": "^2.0.20",
@@ -27,7 +37,9 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "qs": "^6.11.0",
-    "@types/qs": "^6.9.7"
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@types/qs": "^6.9.7",
+    "qs": "^6.11.0"
   }
 }

@@ -194,7 +194,7 @@ export default (config: RequestOptions) => {
         if (type && !config.headers['Content-Type']) {
           config.headers['Content-Type'] = type;
         } else if (eachType && !config.headers['Content-Type']) {
-          config.headers['Content-Type'] = eachBodyType;
+          config.headers['Content-Type'] = eachType;
         }
       }
 
