@@ -1,11 +1,12 @@
 {
   "name": "booze",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "cross platform client http framework",
   "main": "./src/index.ts",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon --exec 'ts-node' ./debug/index.ts"
+    "dev": "nodemon --exec 'ts-node' ./debug/index.ts",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
