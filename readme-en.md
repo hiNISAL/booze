@@ -5,7 +5,7 @@
 
 🇨🇳[中文](https://github.com/hiNISAL/booze#booze) | [ENGLISH](https://github.com/hiNISAL/booze/blob/main/readme-en.md)
 
-`booze` is an client HTTP framework, let developer focus to describe an HTTP request.
+`booze` is a client HTTP framework, let developer focus to describe an HTTP request.
 
 `booze` not provide any XHR/Fetch function, just collect request information, it used by `adapter` to make request, so it compatibility any request framework like axios/jquery-ajax and more.
 
