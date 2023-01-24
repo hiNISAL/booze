@@ -1,6 +1,6 @@
 import qs from 'qs';
 import adapterMgr from "../../../adapter";
-import { isArray, isFunction, isPromise, isString, rnd } from "../../../helpers/";
+import { isArray, isFunction, isString, rnd } from "../../../helpers/";
 import { adapterSymbol } from "../../Adapter";
 import { headerSymbol } from "../../Headers";
 import { prefixSymbol } from "../../Prefix";
@@ -124,6 +124,7 @@ export default (config: RequestOptions) => {
       const eachBeforeExecSourceFn = _fn[beforeExecSourceFnSymbol];
       const upperAdapter = target[adapterSymbol];
       const eachBodyType = target[bodyTypeSymbol];
+      const eachHeader = target[headerSymbol];
 
       const _adapter = adapter || upperAdapter || adapterMgr.curAdapter;
 
@@ -180,6 +181,7 @@ export default (config: RequestOptions) => {
         query,
         params,
         headers: headers || {},
+        eachHeaders: eachHeader || {},
         onProgress,
         cancel,
         jsonp: jsonp || (isJsonp ? rndJsonpCallback() : null),
@@ -199,8 +201,17 @@ export default (config: RequestOptions) => {
       }
 
       if (isFunction(headers)) {
-        config.headers = headers(config) || config.headers;
+        config.headers = headers(config) || {};
       }
+
+      if (isFunction(eachHeader)) {
+        config.eachHeaders = eachHeader(config) || {};
+      }
+
+      config.headers = {
+        ...config.eachHeaders,
+        ...config.headers,
+      };
 
       if (eachBefore) {
         const beforeValue = await eachBefore(config);

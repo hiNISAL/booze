@@ -7,6 +7,7 @@ export interface BoozeRequestConfig {
   query: Record<string, string>;
   params: Record<string, any>;
   headers: Record<string, string>;
+  eachHeaders: Record<string, string>;
   jsonp: string|null;
   onProgress: Function|null;
   cancel: Function|null;
