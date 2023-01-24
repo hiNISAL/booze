@@ -1,37 +1,38 @@
 # booze
 
-> 项目构建中...
-> API变化频繁...
+> building...
+> API will changed in frequently...
 
 🇨🇳[中文](https://github.com/hiNISAL/booze#booze) | [ENGLISH](https://github.com/hiNISAL/booze/blob/main/readme-en.md)
 
-booze是一个客户端HTTP上层应用框架，使客户端请求代码编写核心为描述一个请求。
+`booze` is an client HTTP framework, let developer focus to describe an HTTP request.
 
-booze不提供请求的能力，只收集请求信息，通过一个适配器递交给底层的请求引擎，所以兼容所有请求方案。
+`booze` not provide any XHR/Fetch function, just collect request information, it used by `adapter` to make request, so it compatibility any request framework like axios/jquery-ajax and more.
 
-## 安装
+## INSTALL
 
 ```shell
 npm i booze -S
 ```
 
-## 使用
+## USAGE
 
 ```ts
 import { Prefix, Get, regAdapter } from 'booze';
 import axiosAdapter from 'booze/adapter/axios';
 
-// 注册适配器 使用axios为底层请求框架
+// register an adapter, use axios make request
 regAdapter(axiosAdapter);
 
-// 设置服务域名
+// set server site domain
 @Prefix('https://some.site.com')
 class Request {
-  // 表示为一个get请求，接口为/list
-  // 被Get装饰后，方法内容会被改写
+  // request by GET HTTP method, target is `/list`
+  // decorator by `Get`, it will rewire the `getList` method.
   @Get('/list')
   public getList(page: number) {
-    // 返回值被booze处理后会作为一部分参数，递交给axios，返回值就是服务端响应的内容
+    // return value will be handled by `booze`, it will be request params
+    // then `booze` will pipe to axios adapter, adapter will return response
     return {
       page,
     };
@@ -40,27 +41,27 @@ class Request {
 
 const service = new Request();
 
-// 调用方法，会发起一个请求
+// call the method, it will make an request
 const result = await service.getList(1);
 
-// 请求响应的数据
+// response from server
 console.log(result);
 ```
 
-## 核心原理
+## HOW TO BOOZE WORK
 
-`booze`提供了一些装饰器，如`Get`、`Post`，这些装饰器装饰类的方法后，会对方法进行重写。
+`booze` support some decorators, list `Get`/`Post`, those decorator will rewrite the class method.
 
-重写前的方法会被内部保留，每次调用被装饰过的方法后，内部会调用原方法，得到返回值作为请求参数，然后递交适配器处理后，返回适配器处理后的内容。
+written method will be saved by `booze`, anytime call method by decorators, booze will call source method, and get the return value to be request params, then give them to adapter, adapter will make a request, then return the response.
 
-## 适配器
+## ADAPTER
 
-`booze` 不包含任何请求相关的能力，仅负责收集请求相关的信息。
+`booze` not support any XHR/Fetch function, just collect HTTP request information.
 
-`适配器`的作用就是根据这些配置去发起请求，所以`booze`兼容所有请求方案，但在特殊场景下并非开箱即用。
+`adapter` will make a request by collected information, so `booze` can compatibility any request framework.
 
 ```ts
-// 请求信息
+// request information
 interface BoozeRequestConfig {
   url: string;
   method: RequestMethod;
@@ -76,14 +77,16 @@ interface BoozeRequestConfig {
 }
 ```
 
-适配器本质是一个对象，包含`name`属性和`handler`方法。
+`booze` is not out of the box.
+
+adapter is an object, includes `name` prop and `handler` method.
 
 ```ts
 const adapter = {
-  // 适配器名称
+  // adapter's name
   name: 'adapter name',
-  // 适配器处理函数
-  // 接收收集的请求数据，在这里调用真正的请求方法，然后返回
+  // adapter handler
+  // get the request information, and make a request, then return the response
   handler: async (config) => {
     console.log(config.url);
 
@@ -94,15 +97,15 @@ const adapter = {
 };
 ```
 
-### 注册适配器
+### REGISTER ADAPTER
 
-booze 内置了部分适配器，提供的能力不一定完善，可以自行扩展。
+`booze` presets some adapter, its not prefect, but do not worry, thats easy, you can extend it by self.
 
 ```ts
 import { regAdapter } from 'booze';
 import axiosAdapter from 'booze/adapter/axios';
 
-// 全局注册适配器
+// register adapter globally
 regAdapter(axiosAdapter);
 ```
 
@@ -110,10 +113,9 @@ regAdapter(axiosAdapter);
 
 ### Prefix
 
-设置所有请求的前缀。
+set all request url prefix.
 
-用于装饰一个类，类下的方法在生成请求配置的时候，会使用传入的参数作为请求的前缀。
-
+to decorate a class, when booze create a request, it will be request url prefix
 ```ts
 @Prefix('https://some.site.com')
 class Req {}
@@ -121,7 +123,7 @@ class Req {}
 
 #### Get
 
-装饰方法，调用该方法后，会把方法的返回值作为参数，发起一个`get`请求。
+decorate a method, return value will be query string, and use `Get` method.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -135,7 +137,7 @@ class Req {
 }
 ```
 
-可以携带第二个参数，会替代装饰在类上的前缀。
+the second argument will replace `Prefix` decorator's value, be the request url prefix.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -149,30 +151,31 @@ class Req {
 }
 ```
 
+in some scene, the params is in url, it can solute by `placeholder`.
 
-有些情况下，参数是带在路径上的，可以通过占位符的方式解决。
-
-在`path`中通过`:placeholder`的方式占位，这时候返回值需要变成数组，第二个参数来返回占位同名的参数，这样在处理参数过程中，`booze`会对占位符进行替换。
+used `:placeholder` to create placeholder in path, then return value should be Array type, the second unit will be placeholder value, `booze` will replace it when collect request information.
 
 ```ts
 @Prefix('https://some.site.com')
 class Req {
+  // placeholder is `:id`
   @Get('/list/:id')
   public getList() {
     return [{
       page: 1,
     }, {
+      // will replace `:id`, path will changed be `/list/996`
       id: 996,
     }];
   }
 }
 ```
 
-注：装饰请求方法的装饰器，必须放在第一位。
+**HTTP method decorator(Get/Post/Delete...) need put at the first**
 
 #### Post
 
-装饰方法，调用该方法后，会把方法的返回值作为参数，发起一个`Post`请求。
+decorate a method, return value will be query string, and use `Post` method.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -186,10 +189,10 @@ class Req {
 
 #### Headers
 
-额外携带的请求头，可以传递三种形式的参数。
+set request headers.
 
 ```ts
-// 设置一组
+// case 1
 class Req {
   @Post('/')
   @Headers('Authorization', 'Bearer .......')
@@ -198,7 +201,7 @@ class Req {
   }
 }
 
-// 传递对象
+// case2
 class Req {
   @Post('/')
   @Headers({
@@ -210,7 +213,7 @@ class Req {
   }
 }
 
-// 传递函数
+// case3
 class Req {
   @Post('/')
   @Headers((config: BoozeRequestConfig) => {
@@ -222,14 +225,14 @@ class Req {
 }
 
 @Prefix('')
-// 同上
-@Headers()
+// like upper case
+@Headers(...)
 class Req {}
 ```
 
 #### JSONP
 
-标记请求为JSONP的形式处理。
+set the request config `method` prop to `JSONP`.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -246,9 +249,11 @@ class Req {
 
 #### Before
 
-请求发送前会调用，如果返回 `false` ，请求就会被中断。
+it will called before request send.
 
-如果装饰在类上，则每个方法被调用的时候都会触发。
+if return value is `false`, request will be beak.
+
+when decorate a class, will called before each request send.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -271,9 +276,9 @@ class Req {
 
 #### After
 
-请求被响应后调用。
+it will called after request be response.
 
-如果装饰在类上，则每个方法被调用的时候都会触发。
+when decorate a class, will called after each request be response.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -296,7 +301,7 @@ class Req {
 
 #### Adapter
 
-给某个请求单独指定适配器。
+set the adapter for some request.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -311,7 +316,7 @@ class Req {
 }
 ```
 
-也可以传递字符串，会从注册过的适配器里匹配`name`属性。
+also can given a string, `booze` will find adapter from registered adapters by `name` prop.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -328,7 +333,7 @@ class Req {
 
 #### BeforeExecSourceFn
 
-在原始方法被执行前会执行，如果返回false，会中断请求的发送。
+it called before saved call saved method, if return value is false, request will be break.
 
 ```ts
 @Prefix('https://some.site.com')
@@ -342,7 +347,7 @@ class Req {
 
 #### BodyType
 
-预设了部分content-type类型。
+`content-type` presets:
 
 - BodyType.Type.Form - application/x-www-form-urlencoded
 - BodyType.Type.JSON - application/json
@@ -413,14 +418,18 @@ class Patch {
 
 #### regAdapter
 
-注册适配器，可以注册多个，默认使用第一个作为适配器，可以通过`setAdapter`切换。
+register an adapter.
+
+can register more than one, the first is default.
+
+can toggle adapter by `setAdapter`.
 
 ```ts
 import { regAdapter } from 'booze';
 
-// 注册一个
+// register one
 regAdapter(axiosAdapter);
-// 注册多个
+// register many
 regAdapter([
   jqueryAdapter,
   fetchAdapter,
@@ -435,7 +444,9 @@ regAdapter([
 
 #### setAdapter
 
-设置适配器，有多个适配器的时候，可以直接通过`name`指定，也可以传入一个新的适配器。
+set an adapter.
+
+can toggle by adapter `name`, or given a new adapter.
 
 ```ts
 import { setAdapter } from 'booze';
@@ -450,36 +461,36 @@ setAdapter({
 
 #### makeBody
 
-如果需要一些特殊需求，如取消请求、进度条展示等，可以用到这个方法。
+some special case, like cancel request, show progress and more, can call `makeBody` method to help booze decide request information.
 
 ```ts
 @Prefix('https://some.site.com')
 class Req {
   @Get('/list')
   public getList() {
-    return makeBody {
-      // body中的参数
+    return makeBody({
+      // body params
       params: {},
-      // 被拼到url上的参数
+      // query string
       query: {},
-      // 路径参数
+      // placeholder params
       placeholder: {},
-      // 进度条变化回调
+      // progress handler
       onProgress: () => {},
-      // 取消请求
+      // cancel handler
       cancel: () => {},
-      // jsonp callback的名称
+      // jsonp callback function name
       jsonp: '',
-    };
+    });
   }
 }
 ```
 
 #### eachBeforeExecSourceFn
 
-注册全局的钩子，会在原始方法被调用前触发。
+register hook globally, it called before saved method
 
-如果返回值是 `false` 则会中断请求。
+if return value is `false`, the request will be break.
 
 ```ts
 import { eachBeforeExecSourceFn } from 'booze';
@@ -491,7 +502,7 @@ eachBeforeExecSourceFn((baseConfig) => {
 
 #### eachAfter
 
-注册全局的钩子，会在适配器执行后触发。
+register hook globally, it called after each request(after adapter called).
 
 ```ts
 import { eachAfter } from 'booze';
@@ -501,13 +512,15 @@ eachAfter((response, baseConfig) => {
 });
 ```
 
-## 开发注意点
+## SOME TIP
 
-### 数据类型问题
+### response signature
 
-因为方法被装饰器重写了，所以调用方法后得到的返回值，类型推断层面会存在问题，官方也有相关[ISSUE](https://github.com/microsoft/TypeScript/issues/49229)。
+the class method will rewrite by booze decorators, so typescript will assert type fail.
 
-推荐采用`as`的方式：
+thats problem has no good way to solute, there is [ISSUE](https://github.com/microsoft/TypeScript/issues/49229) about this problem.
+
+you can use `as` keyword, to set the type by explicit.
 
 ```ts
 interface SomeInterface {
@@ -523,11 +536,11 @@ class Req {
 }
 ```
 
-### 装饰顺序问题
+### the decorators order
 
-标记请求方法的装饰器，必须放在第一个。
+the decorator hat set the http method, should be at the first line.
 
-包括：
+includes:
 
 - @Get
 - @Post
@@ -540,9 +553,19 @@ class Req {
 ```ts
 @Prefix('https://some.site.com')
 class Req {
-  // 这样会运行异常，Get必须放在最前面
+  // this wrong, will throw error
   @After()
   @Get('/')
+  public getSomeThing() {
+    return {};
+  }
+}
+
+@Prefix('https://some.site.com')
+class Req {
+  // bingo~
+  @Get('/')
+  @After()
   public getSomeThing() {
     return {};
   }
