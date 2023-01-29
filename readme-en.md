@@ -1,6 +1,7 @@
 # booze
 
 > building...
+
 > API will changed in frequently...
 
 🇨🇳[中文](https://github.com/hiNISAL/booze#booze) | [ENGLISH](https://github.com/hiNISAL/booze/blob/main/readme-en.md)
@@ -48,7 +49,7 @@ const result = await service.getList(1);
 console.log(result);
 ```
 
-## HOW TO BOOZE WORK
+## HOW IT WORKS
 
 `booze` support some decorators, list `Get`/`Post`, those decorator will rewrite the class method.
 
