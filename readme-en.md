@@ -572,3 +572,11 @@ class Req {
   }
 }
 ```
+
+### cannot work in JavaScript
+
+the `main` prop in package.json is `src/index.ts`, so if want work in js, need import tsc compiled:
+
+```js
+import { Get, Prefix } from 'booze/release/commonjs';
+```

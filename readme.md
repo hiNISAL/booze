@@ -548,3 +548,11 @@ class Req {
   }
 }
 ```
+
+### JavaScript无法使用
+
+配置在`package.json`里的`main`是指向`src/index.ts`的，所以JS需要调用，需要引入TSC编译好的版本：
+
+```js
+import { Get, Prefix } from 'booze/release/commonjs';
+```
