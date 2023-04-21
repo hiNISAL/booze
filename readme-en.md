@@ -1,14 +1,10 @@
 # booze
 
-> building...
-
-> API will changed in frequently...
-
 🇨🇳[中文](https://github.com/hiNISAL/booze#booze) | [ENGLISH](https://github.com/hiNISAL/booze/blob/main/readme-en.md)
 
-`booze` is a client HTTP framework, let developer focus to describe an HTTP request.
+Booze is a client-side HTTP application framework that allows developers to describe requests as the core of their code.
 
-`booze` not provide any XHR/Fetch function, just collect request information, it used by `adapter` to make request, so it compatibility any request framework like axios/jquery-ajax and more.
+It does not provide the ability to make requests itself, but instead collects request information and passes it on to a request engine through an adapter, making it compatible with all request solutions.
 
 ## INSTALL
 
@@ -51,15 +47,16 @@ console.log(result);
 
 ## HOW IT WORKS
 
-`booze` support some decorators, list `Get`/`Post`, those decorator will rewrite the class method.
 
-written method will be saved by `booze`, anytime call method by decorators, booze will call source method, and get the return value to be request params, then give them to adapter, adapter will make a request, then return the response.
+booze provides decorators such as Get and Post, which can be used to decorate class methods and override them.
+
+The original methods are internally preserved and called each time the decorated method is called. The return value of the original method is used as the request parameter and passed to the adapter for processing. The adapter returns the processed content.
 
 ## ADAPTER
 
-`booze` not support any XHR/Fetch function, just collect HTTP request information.
+booze does not include any request-related capabilities and is only responsible for collecting information related to requests.
 
-`adapter` will make a request by collected information, so `booze` can compatibility any request framework.
+The role of the adapter is to make requests based on this configuration, making booze compatible with all request solutions. However, in specific scenarios, it may not be ready to use right out of the box.
 
 ```ts
 // request information

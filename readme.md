@@ -1,8 +1,5 @@
 # booze
 
-> 项目构建中...
-> API变化频繁...
-
 🇨🇳[中文](https://github.com/hiNISAL/booze#booze) | [ENGLISH](https://github.com/hiNISAL/booze/blob/main/readme-en.md)
 
 booze是一个客户端HTTP上层应用框架，使客户端请求代码编写核心为描述一个请求。
