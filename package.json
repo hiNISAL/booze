@@ -1,6 +1,6 @@
 {
   "name": "booze",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-beta.0",
   "description": "Describe HTTP APIs with TypeScript decorators: typed results, order-independent decorators, middleware.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -47,7 +47,13 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json && tsc -p test/tsconfig.legacy.json"
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json && tsc -p test/tsconfig.legacy.json",
+    "smoke": "node test/smoke/build.mjs && node test/smoke/run.mjs",
+    "prepublishOnly": "pnpm typecheck && pnpm test && pnpm build && pnpm smoke"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "next"
   },
   "repository": {
     "type": "git",
@@ -77,6 +83,14 @@
     "axios": {
       "optional": true
     }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ],
+    "ignoredBuiltDependencies": [
+      "@swc/core"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^8.1.2",

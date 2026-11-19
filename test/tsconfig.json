@@ -6,5 +6,5 @@
     "types": ["node"]
   },
   "include": ["../src", "./**/*.ts"],
-  "exclude": ["./compat/fixtures/**"]
+  "exclude": ["./compat/fixtures/**", "./smoke/**"]
 }
