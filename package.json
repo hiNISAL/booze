@@ -4,8 +4,11 @@
   "description": "cross platform client http framework",
   "main": "./src/index.ts",
   "scripts": {
-    "test": "jest",
-    "dev": "nodemon --exec 'ts-node' ./debug/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit",
+    "dev": "tsx watch ./debug/index.ts",
     "build": "tsc"
   },
   "repository": {
@@ -28,18 +31,16 @@
   },
   "homepage": "https://github.com/hiNISAL/booze#readme",
   "devDependencies": {
-    "@babel/preset-typescript": "^7.18.6",
     "@types/isarray": "^2.0.0",
-    "@types/jest": "^29.2.4",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.1.1",
     "axios": "^1.2.1",
     "axios-jsonp": "^1.0.4",
-    "nodemon": "^2.0.20",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.4"
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1"
   },
   "dependencies": {
-    "@babel/core": "^7.20.7",
-    "@babel/preset-env": "^7.20.2",
     "@types/qs": "^6.9.7",
     "qs": "^6.11.0"
   }

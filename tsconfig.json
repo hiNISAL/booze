@@ -32,7 +32,7 @@
     /* Modules */
     "module": "CommonJS",                                /* Specify what module code is generated. */
     // "rootDir": "./",                                  /* Specify the root folder within your source files. */
-    "moduleResolution": "node",                       /* Specify how TypeScript looks up a file from a given module specifier. */
+    "moduleResolution": "bundler",                    /* TS 7 removed "node"/"node10" (error TS5108). */
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     // "paths": {},                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
@@ -104,5 +104,8 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+  },
+  /* Keep tests and tool configs out of the build output. */
+  "include": ["src", "adapters", "debug", "projcet.d.ts"],
+  "exclude": ["**/*.test.ts", "**/*.test-d.ts"]
 }
