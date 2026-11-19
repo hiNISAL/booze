@@ -1,15 +1,53 @@
 {
   "name": "booze",
-  "version": "1.0.0",
-  "description": "cross platform client http framework",
-  "main": "./src/index.ts",
+  "version": "2.0.0-alpha.0",
+  "description": "Describe HTTP APIs with TypeScript decorators: typed results, order-independent decorators, middleware.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./middleware": {
+      "import": {
+        "types": "./dist/middleware.d.ts",
+        "default": "./dist/middleware.js"
+      },
+      "require": {
+        "types": "./dist/middleware.d.cts",
+        "default": "./dist/middleware.cjs"
+      }
+    },
+    "./adapters/*": {
+      "import": {
+        "types": "./dist/adapters/*.d.ts",
+        "default": "./dist/adapters/*.js"
+      },
+      "require": {
+        "types": "./dist/adapters/*.d.cts",
+        "default": "./dist/adapters/*.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "tsdown",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit",
-    "dev": "tsx watch ./debug/index.ts",
-    "build": "tsc"
+    "typecheck": "tsc -p tsconfig.json && tsc -p test/tsconfig.json && tsc -p test/tsconfig.legacy.json"
   },
   "repository": {
     "type": "git",
@@ -20,9 +58,8 @@
     "request",
     "decorator",
     "http framework",
-    "xhr",
-    "XMLHttpRequest",
-    "fetch"
+    "fetch",
+    "typescript"
   ],
   "author": "ARAM",
   "license": "MIT",
@@ -30,18 +67,31 @@
     "url": "https://github.com/hiNISAL/booze/issues"
   },
   "homepage": "https://github.com/hiNISAL/booze#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "axios": ">=1"
+  },
+  "peerDependenciesMeta": {
+    "axios": {
+      "optional": true
+    }
+  },
   "devDependencies": {
-    "@types/isarray": "^2.0.0",
+    "@babel/core": "^8.1.2",
+    "@babel/plugin-proposal-decorators": "^8.0.2",
+    "@babel/plugin-transform-typescript": "^8.0.6",
+    "@oxc-project/runtime": "0.156.0",
+    "@swc/core": "^1.16.22",
     "@types/node": "^24.19.2",
     "@vitest/coverage-v8": "^5.1.1",
-    "axios": "^1.2.1",
-    "axios-jsonp": "^1.0.4",
-    "tsx": "^4.23.15",
+    "axios": "^1.21.1",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^21.0.4",
+    "tsdown": "0.23.7",
     "typescript": "^7.0.2",
+    "vite": "8.3.8",
     "vitest": "^5.1.1"
-  },
-  "dependencies": {
-    "@types/qs": "^6.9.7",
-    "qs": "^6.11.0"
   }
 }

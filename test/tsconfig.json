@@ -1,11 +1,10 @@
 {
+  // Tests in TC39 standard decorator mode (the TS 5+ default).
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "noEmit": true,
     "rootDir": "..",
-    "target": "es2022",
     "types": ["node"]
   },
-  "include": ["../src", "../adapters", "../projcet.d.ts", "./**/*.ts"],
-  "exclude": []
+  "include": ["../src", "./**/*.ts"],
+  "exclude": ["./compat/fixtures/**"]
 }

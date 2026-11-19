@@ -1,24 +1,30 @@
-export { default as Adapter, adapterSymbol as _adapterSymbol } from './decorators/Adapter';
-export { default as After, afterSymbol as _afterSymbol } from './decorators/After';
-export { default as Before, beforeSymbol as _beforeSymbol } from './decorators/Before';
-export { default as Delete } from './decorators/HTTPMethods/Delete';
-export { default as Get } from './decorators/HTTPMethods/Get';
-export { default as Head } from './decorators/HTTPMethods/Head';
-export { default as Options } from './decorators/HTTPMethods/Options';
-export { default as Patch } from './decorators/HTTPMethods/Patch';
-export { default as Post } from './decorators/HTTPMethods/Post';
-export { default as Put } from './decorators/HTTPMethods/Put';
-export { default as Request } from './decorators/HTTPMethods/Request';
-export { default as Headers, headerSymbol as _headerSymbol } from './decorators/Headers';
-export { default as JSONP, jsonpSymbol as _jsonpSymbol } from './decorators/JSONP';
-export { default as Prefix, prefixSymbol as _prefixSymbol } from './decorators/Prefix';
-export { default as BodyType, bodyTypeSymbol as _bodyTypeSymbol } from './decorators/BodyType';
+// metadata.ts installs the Symbol.metadata polyfill, so it is evaluated before any user class.
+import './core/metadata';
 
-export { makeBody } from './methods/makeBody';
-export { eachBeforeExecSourceFn } from './methods/eachBeforeExecSourceFn';
-export { eachAfter } from './methods/eachAfter';
+import {
+  Adapter as AdapterDecorator,
+  BodyType as BodyTypeDecorator,
+} from './decorators/shared';
+import type { Adapter as AdapterContract, BodyType as BodyTypeName } from './types';
 
-import adapterMgr from './adapter';
+export { request, type BoozeRequest, type FullResult, type RequestFunction } from './request';
+export { Delete, Get, Head, Options, Patch, Post, Put, Request, type HttpMethodDecorator } from './decorators/http';
+export {
+  After, Before, Client, Headers, Prefix, Timeout, Use,
+  type ClassOnlyDecorator, type ConfigDecorator,
+} from './decorators/shared';
+export { BoozeClient, configure, createClient, defaultClient, type ClientOptions } from './core/client';
+export { BoozeError, isBoozeError, type BoozeErrorCode } from './core/errors';
+export { fetchAdapter, type FetchAdapterOptions } from './adapters/fetch';
+export type {
+  AdapterRequest, BoozeResponse, Context, HeaderMap, HeaderSource, HttpMethod, Middleware, Next,
+  Progress, Query, RequestOptions, RequestState, ResponseType,
+} from './types';
 
-export const regAdapter = adapterMgr.regAdapter.bind(adapterMgr);
-export const setAdapter = adapterMgr.setAdapter.bind(adapterMgr);
+/** `@Adapter(adapter)` decorator, and the adapter interface. */
+export const Adapter = AdapterDecorator;
+export type Adapter = AdapterContract;
+
+/** `@BodyType('json' | 'form' | …)` decorator, and the body type union. */
+export const BodyType = BodyTypeDecorator;
+export type BodyType = BodyTypeName;

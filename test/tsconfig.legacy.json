@@ -1,0 +1,7 @@
+{
+  // Same tests in legacy decorator mode (experimentalDecorators), as used by Vite 8 / Oxc projects.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "experimentalDecorators": true
+  }
+}
